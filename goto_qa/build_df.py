@@ -5,6 +5,7 @@ from .gen_feature import gen_feature
 
 def make_df(filename, goodness, input_csv=None, output_csv="data_set.csv", mode='update', verbose=True):
     if mode == 'update':
+        print("Running Sextractor for {}".format(filename))
         sex = Sex.make_config(verbose=verbose)
         sex.run_sex(filename)
 
@@ -21,6 +22,7 @@ def make_df(filename, goodness, input_csv=None, output_csv="data_set.csv", mode=
         else:
             raise FileNotFoundError("Input feature table is not given for updating!")
         
+        print("Generating features for {}".format(filename))
         features = gen_feature(filename, goodness=goodness)
         df = df.append(features, ignore_index=True)
         os.system("rm -rf {}_qa.fits".format(os.path.splitext(filename)[0]))
