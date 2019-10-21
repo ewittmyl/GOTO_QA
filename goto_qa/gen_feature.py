@@ -33,9 +33,20 @@ def gen_feature(filename, goodness, **kwargs):
     df = pd.DataFrame(np.array(df).byteswap().newbyteorder())
     df['SNR'] = df.FLUX_AUTO / df.FLUXERR_AUTO
 
+    sci_photo = getdata(filename, "PHOTOMETRY")
+    sci_photo = pd.DataFrame(np.array(sci_photo).byteswap().newbyteorder())
+    try:
+        templ_photo = getdata(filename, "PHOTOMETRY_TEMPL")
+        templ_photo = pd.DataFrame(np.array(templ_photo).byteswap().newbyteorder())
+    except:
+        print("No PHOTOMETRY_TEMPL in {}".format(filename))
+
     quality_features = {}
     quality_features['filename'] = filename
-    quality_features['sci_ndet'] = df.shape[0]
+    if templ_photo:
+        quality_features['ndet_ratio'] = sci_photo.shape[0]/templ_photo.shape[0]
+    else:
+        quality_features['ndet_ratio'] = np.nan
     quality_features['std_elong'] = df.ELONGATION.std()
     quality_features['std_ellip'] = df.ELLIPTICITY.std()
     quality_features['mean_fwhm'] = df.FWHM_IMAGE.mean()

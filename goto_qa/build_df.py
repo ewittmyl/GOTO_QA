@@ -10,7 +10,7 @@ def make_df(filename, goodness, input_csv=None, output_csv="data_set.csv", mode=
         sex.run_sex(filename)
 
     if mode == 'create':
-        df = pd.DataFrame(columns=['filename', 'sci_ndet', 'std_elong', 'std_ellip', 'mean_fwhm', 'std_fwhm',
+        df = pd.DataFrame(columns=['filename', 'ndet_ratio', 'std_elong', 'std_ellip', 'mean_fwhm', 'std_fwhm',
        'fwhm_xcorr', 'fwhm_ycorr', 'mean_snr', 'std_snr', 'bkg_gradient',
        'bkg_residual', 'ks_stat_x', 'ks_pval_x', 'ks_stat_y', 'ks_pval_y', 'QA_Score'])
     elif mode == 'update':
