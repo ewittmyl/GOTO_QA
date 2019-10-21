@@ -1,0 +1,34 @@
+#! /Users/travis/anaconda3/envs/astroconda/bin/python
+
+from goto_qa import funpack, make_df
+import os
+import pandas as pd
+import numpy as np
+
+if __name__ == "__main__":
+    good_images = os.listdir("good_images")
+    bad_images = os.listdir("bad_images")
+    if not os.path.isfile("data_set.csv"):
+        print("Creating new data set...")
+        make_df(None, None, input_csv=None, output_csv="data_set.csv", mode='create', verbose=False)
+    df = pd.read_csv("data_set.csv")
+
+    for img in good_images:
+        if not img in df.filename:
+            img_path = os.path.join("good_images", img)
+            os.system("mv {} .".format(img_path))
+            funpack(img)
+            make_df(img, 1, input_csv="data_set.csv", output_csv="data_set.csv", mode='update', verbose=False)
+            os.system("rm -rf {}".format(img))
+        else:
+            pass
+    
+    for img in bad_images:
+        if not img in df.filename:
+            img_path = os.path.join("bad_images", img)
+            os.system("mv {} .".format(img_path))
+            funpack(img)
+            make_df(img, 0, input_csv="data_set.csv", output_csv="data_set.csv", mode='update', verbose=False)
+            os.system("rm -rf {}".format(img))
+        else:
+            pass

@@ -1,0 +1,1 @@
+Calculating image quality score.
