@@ -1,4 +1,5 @@
 import os
+from . import config
 
 class Sex():
     def __init__(self, conf_args, config_fn, param_fn, gauss_filter):
@@ -10,7 +11,7 @@ class Sex():
     @classmethod
     def make_config(cls, thresh='3', verbose=True):
         # create default config file
-        os.system("sex -d > .qa.sex")
+        os.system("{} -d > .qa.sex".format(getattr(config, 'sex_cmd')))
 
 
         # create config arguments
@@ -68,7 +69,7 @@ class Sex():
         return cls(conf_args, '.qa.sex', '.qa.param', '.gauss_1.5_3x3.conv')
     
     def get_cmd(self, filename):
-        cmd = ' '.join(['sex', filename+'[0]', '-c {} '.format(self.config_fn)])
+        cmd = ' '.join([format(getattr(config, 'sex_cmd')), filename+'[0]', '-c {} '.format(self.config_fn)])
         self.conf_args['CATALOG_NAME'] = '_'.join([filename.split(".")[0], 'qa.fits'])
         self.conf_args['CHECKIMAGE_NAME'] = '_'.join([filename.split(".")[0], 'bkg.fits'])
         args = [''.join(['-', key, ' ', str(self.conf_args[key])]) for key in self.conf_args]
