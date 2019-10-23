@@ -10,9 +10,9 @@ def make_df(filename, goodness, input_csv=None, output_csv="data_set.csv", mode=
         sex.run_sex(filename)
 
     if mode == 'create':
-        df = pd.DataFrame(columns=['filename', 'ndet_ratio', 'std_elong', 'std_ellip', 'mean_fwhm', 'std_fwhm',
-       'fwhm_xcorr', 'fwhm_ycorr', 'mean_snr', 'std_snr', 'bkg_gradient',
-       'bkg_residual', 'ks_stat_x', 'ks_pval_x', 'ks_stat_y', 'ks_pval_y', 'QA_Score'])
+        df = pd.DataFrame(columns=['filename', 'ST_ratio', 'median_fwhm', 'var_fwhm', 
+        'median_elong', 'var_elong', 'median_ellip', 'var_ellip', 'median_snr', 'std_snr', 
+        'var_snr','fwhm_xcorr', 'fwhm_ycorr', 'bkg_gradient', 'x_uniformity', 'y_uniformity', 'QA_Score'])
     elif mode == 'update':
         if input_csv:
             if os.path.isfile(input_csv):
